@@ -68,12 +68,12 @@ export default function SearchPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         {/* Search Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">Vehicle Search</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Vehicle Search</h2>
           <form onSubmit={handleSearch} className="max-w-xl mx-auto">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="text"
                 placeholder="Enter vehicle number (e.g., KA01AB1234)"
@@ -84,8 +84,8 @@ export default function SearchPage() {
               />
               <button
                 type="submit"
-                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 
-                         transition-colors duration-200 font-medium"
+                className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-lg 
+                         hover:bg-primary/90 transition-colors duration-200 font-medium"
               >
                 Search
               </button>
@@ -95,32 +95,34 @@ export default function SearchPage() {
 
         {/* Results Section */}
         {searchResults && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold mb-6">Violation History</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Violation History</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {mockViolationHistory.map((violation) => (
                 <div 
                   key={violation.id} 
                   className="bg-gray-50 dark:bg-gray-700 rounded-xl overflow-hidden 
-                           shadow-md hover:shadow-xl transition-shadow duration-300"
+                           shadow-md hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="relative h-64">
+                  <div className="relative h-48 sm:h-64">
                     <Image
                       src={violation.imageUrl}
                       alt={`Violation ${violation.id}`}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full">
+                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 
+                                  bg-black dark:bg-white text-white dark:text-black 
+                                  px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                       {violation.type}
                     </div>
                   </div>
-                  <div className="p-6 space-y-3">
+                  <div className="p-4 sm:p-6 space-y-2 sm:space-y-3">
                     <div className="flex justify-between items-center">
-                      <p className="text-lg font-semibold">Violation #{violation.id}</p>
-                      <p className="text-lg font-bold text-red-500">₹{violation.fine}</p>
+                      <p className="text-base sm:text-lg font-semibold">Violation #{violation.id}</p>
+                      <p className="text-base sm:text-lg font-bold">₹{violation.fine}</p>
                     </div>
-                    <div className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <div className="space-y-2 text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                       <p className="flex items-center gap-2">
                         <span className="w-4 h-4">🕒</span>
                         {new Date(violation.timestamp).toLocaleString()}
