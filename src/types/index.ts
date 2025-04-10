@@ -3,7 +3,7 @@ export type Violation = {
   type: string;
   timestamp: string;
   location: string;
-  imageUrl: string;
+  imageBase64: string; 
   fine: number;
   vehicleNumber: string;
   status: 'PENDING' | 'PAID' | 'OVERDUE';

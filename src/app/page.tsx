@@ -90,11 +90,10 @@ export default function SearchPage() {
                              shadow-md hover:shadow-xl transition-all duration-300"
                   >
                     <div className="relative h-48 sm:h-64">
-                      <Image
-                        src={violation.imageUrl}
+                    <img
+                        src={violation.imageBase64}
                         alt={`Violation ${violation.id}`}
-                        fill
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                       />
                       <div className="absolute top-2 sm:top-4 right-2 sm:right-4 
                                     bg-black dark:bg-white text-white dark:text-black 

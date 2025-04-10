@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -6,7 +6,9 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Stats, Violation } from "@/types";
 
 export default function Home() {
-  const [stats, setStats] = useState<{ today: Stats; overall: Stats } | null>(null);
+  const [stats, setStats] = useState<{ today: Stats; overall: Stats } | null>(
+    null
+  );
   const [violations, setViolations] = useState<Violation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,17 +16,17 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [statsRes, violationsRes] = await Promise.all([
-          fetch('/api/stats'),
-          fetch('/api/violations')
+          fetch("/api/stats"),
+          fetch("/api/violations"),
         ]);
-        
+
         const statsData = await statsRes.json();
         const violationsData = await violationsRes.json();
 
         setStats(statsData);
         setViolations(violationsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -54,16 +56,28 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.today.tripleRiding}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">Triple Riding</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.today.tripleRiding}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  Triple Riding
+                </p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.today.noHelmet}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">No Helmet</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.today.noHelmet}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  No Helmet
+                </p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.today.totalViolations}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">Total</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.today.totalViolations}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  Total
+                </p>
               </div>
             </div>
           </div>
@@ -74,16 +88,28 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.overall.tripleRiding}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">Triple Riding</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.overall.tripleRiding}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  Triple Riding
+                </p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.overall.noHelmet}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">No Helmet</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.overall.noHelmet}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  No Helmet
+                </p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">{stats.overall.totalViolations}</p>
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">Total</p>
+                <p className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {stats.overall.totalViolations}
+                </p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mt-2">
+                  Total
+                </p>
               </div>
             </div>
           </div>
@@ -96,20 +122,22 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {violations.map((violation: Violation) => (
-              <div 
-                key={violation.id} 
+              <div
+                key={violation.id}
                 className="bg-gray-50 dark:bg-gray-700 rounded-xl overflow-hidden shadow-md 
                          hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="relative h-40 sm:h-48">
-                  <Image
-                    src={violation.imageUrl}
+                  <img
+                    src={violation.imageBase64}
                     alt={`Violation ${violation.id}`}
-                    fill
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
-                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black dark:bg-white 
-                                text-white dark:text-black px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
+                  <div
+                    className="absolute top-2 sm:top-4 right-2 sm:right-4 
+                                    bg-black dark:bg-white text-white dark:text-black 
+                                    px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm"
+                  >
                     {violation.type}
                   </div>
                 </div>
@@ -119,12 +147,14 @@ export default function Home() {
                       {violation.vehicleNumber}
                     </p>
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium
-                        ${violation.status === 'PAID' 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          : violation.status === 'OVERDUE'
-                          ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium
+                        ${
+                          violation.status === "PAID"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : violation.status === "OVERDUE"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                         }`}
                       >
                         {violation.status}

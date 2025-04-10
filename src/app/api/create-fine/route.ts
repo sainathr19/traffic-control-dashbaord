@@ -11,8 +11,37 @@ const razorpay = new Razorpay({
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { vehicleNumber, type, timestamp, location, imageUrl, email } = body;
+    // Ensure database connection
+    await connectDB();
+
+    let body;
+    try {
+      const text = await request.text();
+      body = JSON.parse(text);
+    } catch (jsonError) {
+      return NextResponse.json(
+        { error: 'Invalid JSON format in request body' },
+        { status: 400 }
+      );
+    }
+
+    const { vehicleNumber, type, timestamp, location, imageBase64, email } = body;
+
+    // Validate required fields
+    if (!vehicleNumber || !type || !timestamp || !location || !imageBase64) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+        // Validate image
+        if (!imageBase64 || !imageBase64.startsWith('data:image/')) {
+          return NextResponse.json(
+            { error: 'Invalid image format' },
+            { status: 400 }
+          );
+        }
 
     // Determine fine amount based on violation type
     const fineAmount = type === 'Triple Riding' ? 1000 : 500;
@@ -56,7 +85,7 @@ export async function POST(request: Request) {
       amount: fineAmount,
       location,
       timestamp: new Date(timestamp),
-      imageUrl,
+      imageBase64,
       status: 'PENDING',
       paymentLinkId: paymentLink.id,
       paymentLink: paymentLink.short_url,

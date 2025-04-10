@@ -29,7 +29,7 @@ export async function GET(request: Request) {
       vehicleNumber: violation.vehicleNumber,
       timestamp: violation.timestamp.toISOString(),
       location: violation.location,
-      imageUrl: violation.imageUrl,
+      imageBase64: violation.imageBase64,
       fine: violation.amount,
       status: violation.status,
       paymentLink: violation.paymentLink

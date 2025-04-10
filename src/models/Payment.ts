@@ -22,7 +22,7 @@ const PaymentSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  imageUrl: {
+  imageBase64: {
     type: String,
     required: true,
   },
