@@ -18,12 +18,6 @@ export default function SearchPage() {
     e.preventDefault();
     setError(null);
     
-    // Validate vehicle number format
-    if (!VEHICLE_NUMBER_REGEX.test(vehicleNumber)) {
-      setError('Please enter a valid vehicle number (e.g., KA01AB1234)');
-      return;
-    }
-
     setLoading(true);
     
     try {
