@@ -25,10 +25,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const { vehicleNumber, type, timestamp, location, imageBase64, email } = body;
+    const { vehicleNumber, type, location, imageBase64, email } = body;
 
     // Validate required fields
-    if (!vehicleNumber || !type || !timestamp || !location || !imageBase64) {
+    if (!vehicleNumber || !type || !location || !imageBase64) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         vehicleNumber,
         violationType: type,
         location,
-        timestamp,
+        timestamp : new Date().toISOString(),
       },
       callback_url: `${baseUrl}/payment/success`,
       callback_method: 'get',
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
       violationType: type,
       amount: fineAmount,
       location,
-      timestamp: new Date(timestamp),
+      timestamp: new Date(),
       imageBase64,
       status: 'PENDING',
       paymentLinkId: paymentLink.id,
