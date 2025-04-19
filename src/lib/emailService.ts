@@ -13,7 +13,7 @@ export const sendViolationNotification = async (
 ) => {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Traffic Control <notifications@resend.dev>',
+      from: 'Traffic Control <alerts@freshroots.shop>',
       to: email,
       subject: `Traffic Violation Notice - ${violationDetails.vehicleNumber}`,
       html: `
