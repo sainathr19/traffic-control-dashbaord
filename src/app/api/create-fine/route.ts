@@ -9,6 +9,8 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET!,
 });
 
+import Vehicle from '@/models/Vehicle';
+
 export async function POST(request: Request) {
   try {
     // Ensure database connection
@@ -25,13 +27,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const { vehicleNumber, type, location, imageBase64, email } = body;
+    const { vehicleNumber, location, imageBase64, type } = body;
 
     // Validate required fields
-    if (!vehicleNumber || !type || !location || !imageBase64) {
+    if (!vehicleNumber || !location || !imageBase64) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
+      );
+    }
+
+    // Fetch vehicle details from registry
+    const vehicle = await Vehicle.findOne({ vehicleNumber: vehicleNumber.toUpperCase() });
+    if (!vehicle) {
+      return NextResponse.json(
+        { error: 'Vehicle not found in registry' },
+        { status: 404 }
       );
     }
 
@@ -54,8 +65,9 @@ export async function POST(request: Request) {
       currency: 'INR',
       description: `Traffic Violation Fine - ${type}`,
       customer: {
-        name: vehicleNumber,
-        email: email,
+        name: vehicle.ownerName,
+        email: vehicle.email,
+        contact: vehicle.mobile
       },
       notify: {
         sms: true,
@@ -66,7 +78,9 @@ export async function POST(request: Request) {
         vehicleNumber,
         violationType: type,
         location,
-        timestamp : new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        ownerName: vehicle.ownerName,
+        vehicleType: vehicle.type
       },
       callback_url: `${baseUrl}/payment/success`,
       callback_method: 'get',
@@ -90,18 +104,17 @@ export async function POST(request: Request) {
       paymentLinkId: paymentLink.id,
       paymentLink: paymentLink.short_url,
       dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      email, // Store email in payment record
+      email: vehicle.email
     });
 
     // Send email notification
-    if (email) {
-      await sendViolationNotification(email, {
-        vehicleNumber,
-        violationType: type,
-        amount: fineAmount,
-        paymentLink: paymentLink.short_url
-      });
-    }
+    await sendViolationNotification(vehicle.email, {
+      vehicleNumber,
+      violationType: type,
+      amount: fineAmount,
+      paymentLink: paymentLink.short_url,
+      ownerName: vehicle.ownerName
+    });
 
     return NextResponse.json({ success: true, payment });
   } catch (error) {
