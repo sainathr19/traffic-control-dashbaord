@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       type: "Two Wheeler",
       ownerName: "Nandasree",
       mobile: "7981182708",
-      email: "nandasree3408@gmail.com",
+      email: "nandasree3404@gmail.com",
     };
 
     if (!vehicle) {
