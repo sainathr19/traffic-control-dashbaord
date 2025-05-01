@@ -5,8 +5,7 @@ const VehicleSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    uppercase: true,
-    match: /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/
+    uppercase: true
   },
   type: {
     type: String,

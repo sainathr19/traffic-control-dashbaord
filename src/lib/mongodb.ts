@@ -9,11 +9,10 @@ declare global {
   var mongoose: MongooseCache;
 }
 
-if (!process.env.MONGODB_URI) {
+const MONGODB_URI = process.env.MONGODB_URI || "";
+if (!MONGODB_URI) {
   throw new Error('Please add your MONGODB_URI to .env.local');
 }
-
-const MONGODB_URI = process.env.MONGODB_URI;
 
 // Initialize the cache with default values
 global.mongoose = global.mongoose || { conn: null, promise: null };
